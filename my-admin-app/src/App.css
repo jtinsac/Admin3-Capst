@@ -1,0 +1,14 @@
+*{
+  margin:0;
+  text-decoration: none;
+  list-style: none;
+  box-sizing: border-box;
+}
+.app-container {
+  display: flex; /* Ensure Sidebar and Window are side by side */
+  width: 100vw; /* Full width of the viewport */
+  height: 100vh; /* Full height of the viewport */
+  background-color: rgb(233, 233, 233);
+}
+
+

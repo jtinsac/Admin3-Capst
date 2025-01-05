@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Nobile:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+.d-container{
+    float:right;
+    height: 97.5vh; 
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    margin: 10px;
+    width: 80%;
+    border-radius: 20px;
+}
+
+.d-heading{
+    width: 100%;
+    height: 12vh;
+    padding:25px 35px 18px;
+    font-size: 22px;
+    font-family: 'Noto Sans', sans-serif;
+    line-height: 1.5;
+    color: #1C2E8B;
+}
+
+.dash-date{
+    font-weight: 360;
+    margin-bottom: 10px;
+}
+.topdiv{
+    display: flex;
+    flex-direction: row;
+    gap:.5rem;
+}
+.d-content{
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    padding:30px;
+    height: 80vh;
+}
+.visit-wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+.visit-card{
+    border: 1px solid #c7c7c7;
+    border-radius: 10px;
+    padding:15px 20px 20px;
+    background-color: rgb(255, 255, 255);
+    width: 13rem;
+    height: 8rem;
+}
+
+.visit-header{
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: 350;
+    color: #1C2E8B;
+    margin-bottom: 15px;
+}
+
+.visitor-count{
+    font-family: 'inter', sans-serif;
+    font-size: 2rem;
+    color: #1C2E8B;
+}
+
+.mos-visitor{
+    font-family: 'inter', sans-serif;
+    font-size: 2rem;
+    color: #1C2E8B;
+}
+
+.bar-card {
+    flex: 1;
+    background: #ffffff;
+    border: 1px solid #c7c7c7;
+    border-radius: 10px;
+    padding: 20px;
+    min-width: 10px; /* Ensures minimum card width */
+    height: 300px; /* Set a height for the chart to render */
+  }
+  
+  .bar-card canvas {
+    width: 100% !important; /* Forces the canvas to fit its container */
+    height: 100% !important;
+  }
+
+.student-dept{
+  width: 85%;
+  height: 17rem;
+}
+
+.user-table{
+    border: 1px solid #c7c7c7;
+    border-radius: 10px;
+    margin-top: 2px;
+}
+
+.table-heading{
+    display: flex;
+    align-items: center;
+    width:367%;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.time{
+    margin-right: 25px;
+    height: 40px;
+    width: 6rem;
+    cursor: pointer;
+}
+
+th{
+    border-bottom: 1px solid rgb(201, 201, 201);
+    width: 20%;
+}
+
+td{
+    padding: 10px;
+    text-align: center;
+    font-family: 'nobile', Noto Sans;
+    font-size: 15px;
+    color: #1C2E8B;
+}
+
+.table-head{
+    padding:20px;
+    font-family: 'nobile', sans-serif;
+    font-size: 26px;
+    font-weight: 500;
+    color: #1C2E8B;
+}
+.utable-head{
+   color: #1C2E8B;
+   font-family: 'Noto Sans', sans-serif;
+   font-weight: 100;
+}
+
+
+
+
