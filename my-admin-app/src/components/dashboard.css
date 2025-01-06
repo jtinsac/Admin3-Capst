@@ -9,7 +9,9 @@
     background-color: white;
     margin: 10px;
     width: 80%;
-    border-radius: 20px;
+    border-radius: 12px;
+    overflow-y: scroll;
+    scrollbar-color: white;
 }
 
 .d-heading{
@@ -77,15 +79,14 @@
     border: 1px solid #c7c7c7;
     border-radius: 10px;
     padding: 20px;
-    min-width: 10px; /* Ensures minimum card width */
-    height: 300px; /* Set a height for the chart to render */
+    min-width: 300px; 
+    height: 300px; 
   }
   
   .bar-card canvas {
-    width: 100% !important; /* Forces the canvas to fit its container */
+    width: 100% !important; 
     height: 100% !important;
   }
-
 .student-dept{
   width: 85%;
   height: 17rem;
@@ -113,8 +114,8 @@
 }
 
 th{
-    border-bottom: 1px solid rgb(201, 201, 201);
     width: 20%;
+    text-align: center;
 }
 
 td{
