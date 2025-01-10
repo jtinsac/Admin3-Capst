@@ -4,9 +4,16 @@ import Window1 from './Pages/Window1';
 import LogAdmin from './Pages/Login';
 import Users from './Pages/Users';
 import AddAccount from './Pages/AddAccount';
+import Wins from './Pages/Wins';
+
+
+
+
+
 
 function App() {
   return (
+    <>
     <div className="app-container">
       <Routes>
         <Route path="/" element={<Dashboard />} />
@@ -14,9 +21,11 @@ function App() {
         <Route path="/log" element={<LogAdmin />} />
         <Route path="/users" element={<Users />} />
         <Route path="/acc" element={<AddAccount />} />
-        
+        <Route path="/prl" element={<Wins/>} /> 
+
       </Routes>
     </div>
+    </>
   );
 }
 

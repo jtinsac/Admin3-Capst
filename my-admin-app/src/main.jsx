@@ -7,6 +7,7 @@ import './components/window1.css'
 import './components/dashboard.css'
 import './components/logAdmin.css'
 import './components/AddAccount.css'
+import './components/preLog.css'
 import App from './App.jsx'
 import { BrowserRouter } from 'react-router-dom'
 

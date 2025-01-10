@@ -73,7 +73,7 @@ return(
             <FontAwesomeIcon icon={faGear} className='one'/>
             <span className='dash'> Settings </span></CustomLink>
  
-            <CustomLink className="logout" href ="/log">
+            <CustomLink className="logout" href ="/prl">
             <FontAwesomeIcon icon={faArrowRightFromBracket} flip="horizontal" className='one' />
             <span className='dash'> Log out</span></CustomLink>
 
