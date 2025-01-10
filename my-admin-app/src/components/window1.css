@@ -79,14 +79,14 @@
 
 .button-cont{
     display: flex;
+    justify-content: center;
     gap:1.5rem;
     padding: 5px;
 }
 
 .btns{
     padding:16px 25px;
-    color: #1C2E8B;
-    background-color: #fff;
+    background-color: #712b2b;
     border: none;
     border-radius: 6px;
     font-size: 16px;
@@ -96,7 +96,7 @@
     transition: 0.3s;
 }
 
-.btns-cancel{
+.cancel{
     padding:16px 25px;
     color: #f53838;
     background-color: #fbfbfb;
@@ -109,20 +109,44 @@
     transition: 0.3s;
 }
 
-.btns-cancel:hover{
+.cancel:hover{
     background-color: #f53838;
     color:#fff;
     transition: 0.3s;
 }
 
-
-.btns:hover{
-    background-color: #273ca4;
-    color: #fff;
+.recall{
+    padding:16px 25px;
+    color: #f53838;
+    background-color: #fbfbfb;
+    border: 2px solid #f53838;
+    border-radius: 6px;
+    font-size: 16px;
+    font-family: 'nobile',sans-serif;
+    font-weight: 100;
+    cursor: pointer;
     transition: 0.3s;
 }
 
-.now-serving{
-    color: black;
+.next{
+    padding:16px 25px;
+    color: #f53838;
+    background-color: #fbfbfb;
+    border: 2px solid #712b2b;
+    border-radius: 6px;
+    font-size: 16px;
+    font-family: 'nobile',sans-serif;
+    font-weight: 100;
+    cursor: pointer;
+    transition: 0.3s;
 }
+
+
+.queue-container{
+    display: flex;
+    flex-direction: column;
+    color: #1C2E8B;
+}
+
+
 

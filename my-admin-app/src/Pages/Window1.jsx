@@ -38,6 +38,7 @@ function Window1() {
   // Fetch the next queue when component mounts
   useEffect(() => {
     fetchNextQueue();
+    console.log("rendering")
   }, []);
 
   // Fetch next queue
@@ -196,7 +197,8 @@ function Window1() {
             </div>
           </div>
           <div className="queue-container">
-            <h2 className="now-serving">Current Queue: {currentQueue?.Queue_Number || "N/A"}</h2>
+            <h2 className="now-serving">Current Queue:</h2>
+             <h2 className="q-num">  {currentQueue?.Queue_Number || "N/A"}</h2>
           </div>
           <div className="button-cont">
             <button className="cancel" onClick={cancelCurrentQueue}>Cancel</button>

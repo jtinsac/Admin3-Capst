@@ -176,7 +176,7 @@ function Dashboard(){
                 {headerGroup.headers.map((header) => (
                   <th
                     key={header.id}
-                    className="text-center px-6 py-3 border text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="text-center p-3 px-20 border text-xs font-medium text-blue-800 uppercase tracking-wider"
                   >
                     <div
                       {...{
@@ -199,11 +199,11 @@ function Dashboard(){
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {table.getRowModel().rows.map((row) => (
-              <tr key={row.id} className="hover:bg-gray-50">
+              <tr key={row.id} className="hover:bg-gray-100 cursor-pointer">
                 {row.getVisibleCells().map((cell) => (
                   <td
                     key={cell.id}
-                    className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    className=" text-center border px-6 py-4 whitespace-nowrap text-sm text-gray-500"
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>

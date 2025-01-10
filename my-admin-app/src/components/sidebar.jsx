@@ -29,41 +29,58 @@ function Sidebar(){
 return(
   <div className="sidebar-container">
     <div className="sidebar-pages">
-        <div className="title">SmartQueues.</div>
-        <div className="pages">
-          <div className='dashi'>
-            <h3 className='winn-header'>MAIN MENU</h3>
-        <CustomLink href ="/dashboard" className='sidebar-link'>
-        <FontAwesomeIcon icon={faHome} className='home-icon' />
-        <span className='dash'>Dashboard</span></CustomLink> 
-        </div>
-        <CustomLink href ="/users" className='sidebar-link'>
+     <div className="title">SmartQueues.</div>
+
+       <div className="pages">
+
+         <div className='dashi'>
+          <h3 className='winn-header'>MAIN MENU</h3>
+
+          <CustomLink className='sidebar-link' href ="/" >
+          <FontAwesomeIcon icon={faHome} className='home-icon' />
+          <span className='dash'>Dashboard</span></CustomLink> 
+
+         </div>
+
+        <CustomLink className='sidebar-link' href ="/users" >
         <FontAwesomeIcon icon={faUser} className='user-icon' />
         <span className='dash'> Users </span></CustomLink>
-        </div>
+
+        <CustomLink className='sidebar-link' href ="/acc" >
+        <FontAwesomeIcon icon={faUser} className='user-icon' />
+        <span className='dash'> Add Account </span></CustomLink>
+
+      </div>
+
         <div className="windows">
+
           <h4 className="win-header">FINANCE WINDOW</h4>
          
-         <CustomLink href="/" className='sidebar-link'>
-         <FontAwesomeIcon icon={fa1} className='one'/>
-         <span className='dash'> Window 1 </span></CustomLink>
-         <CustomLink href="/win2" className='sidebar-link'>
-         <FontAwesomeIcon icon={fa2} className='one' />
-         <span className='dash'>Window 2 </span></CustomLink>
-         <CustomLink href="/win3" className='sidebar-link'>
-         <FontAwesomeIcon icon={fa3} className='one' />
-         <span className='dash'>Window 3</span></CustomLink>
+           <CustomLink className='sidebar-link' href="/win1" >
+           <FontAwesomeIcon icon={fa1} className='one'/>
+           <span className='dash'> Window 1 </span></CustomLink>
 
-         <CustomLink className="settings" href ="/settings">
-         <FontAwesomeIcon icon={faGear} className='one'/>
-         <span className='dash'> Settings </span></CustomLink>
+           <CustomLink className='sidebar-link' href="/win2" >
+           <FontAwesomeIcon icon={fa2} className='one' />
+           <span className='dash'>Window 2 </span></CustomLink>
 
-         <CustomLink className="logout" href ="/e">
-         <FontAwesomeIcon icon={faArrowRightFromBracket} flip="horizontal" className='one' />
-         <span className='dash'> Log out</span></CustomLink>
+           <CustomLink  className='sidebar-link' href="/win3">
+           <FontAwesomeIcon icon={fa3} className='one' />
+           <span className='dash'>Window 3</span></CustomLink>
+
+
+            <CustomLink className="settings" href ="/settings">
+            <FontAwesomeIcon icon={faGear} className='one'/>
+            <span className='dash'> Settings </span></CustomLink>
+ 
+            <CustomLink className="logout" href ="/log">
+            <FontAwesomeIcon icon={faArrowRightFromBracket} flip="horizontal" className='one' />
+            <span className='dash'> Log out</span></CustomLink>
+
         </div>
-        </div>
+
     </div>
+   </div>
     
 )
 }
