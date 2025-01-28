@@ -1,12 +1,12 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import React, { useState } from 'react';
 import { database } from '../firebase.config';
-import { ref, get, child, push } from 'firebase/database';
+import { ref, get, child, push, update } from 'firebase/database';
 
 function LogAdmin3() {
   const navigate = useNavigate();
   const location = useLocation(); // Retrieve location state
-  const selectedWindow = location.state?.selectedWindow; // Access selectedWindow from location state
+  const selectedWindow = location.state?.selectedWindow || 'Window3'; // Default to Window3
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -44,8 +44,12 @@ function LogAdmin3() {
             name: matchedAdmin.Name,
             date: now.toLocaleDateString(),
             time: now.toLocaleTimeString(),
-            window: selectedWindow || 'Unknown', // Use the selected window or default to "Unknown"
+            window: selectedWindow,
           });
+
+          // Update the LoginStatus of Window3 to "Active"
+          const windowRef = ref(database, `QueueSystemStatus/Window3`);
+          await update(windowRef, { LoginStatus: 'Active' });
 
           navigate('/dashboard3');
         } else {
