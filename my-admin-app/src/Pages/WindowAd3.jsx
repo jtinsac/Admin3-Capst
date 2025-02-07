@@ -13,6 +13,8 @@ import {
   remove,
 } from "firebase/database";
 import '../components/windowAd3.css'
+import { ToastContainer, toast } from 'react-toastify';
+import Swal from 'sweetalert2'
 
 function Window3() {
   const db = database; // Use imported database instance
@@ -38,10 +40,7 @@ function Window3() {
   }, []);
 
   // Fetch the next queue when component mounts
-  useEffect(() => {
-    fetchNextQueue();
-    fetchWindowStatus();
-  }, []);
+
 
   // Utility function to get a formatted date and time
   const getReadableDateTime = () => {
@@ -52,125 +51,176 @@ function Window3() {
     return `${formattedDate} ${formattedTime}`;
   };
 
-  // Fetch next queue
-  const fetchNextQueue = () => {
-    setCurrentQueue(null); // Clear current queue data
-    const nextQueueQuery = query(
-      ref(db, "queues"),
-      orderByChild("Status"),
-      equalTo("Pending"),
-      limitToFirst(1)
-    );
-
-    onValue(
-      nextQueueQuery,
-      (snapshot) => {
-        if (snapshot.exists()) {
-          const data = snapshot.val();
-          const firstEntryKey = Object.keys(data)[0];
-          setCurrentQueueId(firstEntryKey);
-
-          const queueRef = ref(db, `queues/${firstEntryKey}`);
-          const startTime = new Date().toISOString();
-
-          update(queueRef, {
-            Status: "Processing",
-            StartTime: startTime,
-            Window_Received: "Window3",
-          })
-            .then(() => setCurrentQueue(data[firstEntryKey]))
-            .catch((error) => {
-              console.error("Error updating queue status:", error);
-            });
-        } else {
-          alert("No more pending queues!");
-        }
-      },
-      { onlyOnce: true }
-    );
-  };
-
-  // Complete current queue
-  const completeCurrentQueue = () => {
-    if (!currentQueueId) return;
-
-    if (confirm("Are you sure you want to proceed to the next queue?")) {
-      const currentQueueRef = ref(db, `queues/${currentQueueId}`);
-
-      onValue(
-        currentQueueRef,
-        (snapshot) => {
-          if (snapshot.exists()) {
-            const currentData = snapshot.val();
-            const readableEndTime = getReadableDateTime();
-            const startTimeMillis = Date.parse(currentData.StartTime);
-            const processingTimeMillis = Date.now() - startTimeMillis;
-
-            if (isNaN(startTimeMillis) || isNaN(processingTimeMillis)) {
-              alert("Cannot calculate processing time. StartTime is missing or invalid.");
-              return;
-            }
-
-            const readableProcessingTime = formatProcessingTime(processingTimeMillis);
-
-            push(ref(db, "CompletedQueues"), {
-              ...currentData,
-              Status: "Completed",
-              Date_and_Time_Completed: readableEndTime, // Formatted date and time
-              ProcessingTime: readableProcessingTime,
-            }).then(() => {
-              remove(currentQueueRef).then(fetchNextQueue);
-            });
-          }
-        },
-        { onlyOnce: true }
-      );
-    }
-  };
-
-  // Cancel current queue
-  const cancelCurrentQueue = () => {
-    if (!currentQueueId) return;
-
-    if (confirm("Are you sure you want to cancel this queue?")) {
-      const reason = prompt("Please enter the reason for cancellation:");
-      if (reason) {
-        const currentQueueRef = ref(db, `queues/${currentQueueId}`);
-        const readableEndTime = getReadableDateTime();
-
-        onValue(
-          currentQueueRef,
-          (snapshot) => {
-            if (snapshot.exists()) {
-              const currentData = snapshot.val();
-              const startTimeMillis = Date.parse(currentData.StartTime);
-              const processingTimeMillis = Date.now() - startTimeMillis;
-
-              const readableProcessingTime = !isNaN(processingTimeMillis)
-                ? formatProcessingTime(processingTimeMillis)
-                : "N/A";
-
-              push(ref(db, "CompletedQueues"), {
-                ...currentData,
-                Status: "Cancelled",
-                CancelReason: reason,
-                CompletedTime: readableEndTime, // Formatted date and time
-                ProcessingTime: readableProcessingTime,
-              }).then(() => {
-                remove(currentQueueRef).then(() => {
-                  setCurrentQueue(null);
-                  fetchNextQueue();
-                });
-              });
-            }
-          },
-          { onlyOnce: true }
-        );
-      } else {
-        alert("Cancellation reason is required.");
-      }
-    }
-  };
+ // Fetch next queue
+     const fetchNextQueue = () => {
+       setCurrentQueue(null); // Clear current queue data
+       const nextQueueQuery = query(
+         ref(db, "queues"),
+         orderByChild("Status"),
+         equalTo("Pending"),
+         limitToFirst(1)
+       );
+   
+       onValue(
+         nextQueueQuery,
+         (snapshot) => {
+           if (snapshot.exists()) {
+             const data = snapshot.val();
+             const firstEntryKey = Object.keys(data)[0];
+             setCurrentQueueId(firstEntryKey);
+   
+             const queueRef = ref(db, `queues/${firstEntryKey}`);
+             const startTime = new Date().toISOString();
+   
+             update(queueRef, {
+               Status: "Processing",
+               StartTime: startTime,
+               Window_Received: "Window1",
+             })
+               .then(() => setCurrentQueue(data[firstEntryKey]))
+               .catch((error) => {
+                 console.error("Error updating queue status:", error);
+               });
+           } else {
+             toast("No more pending queues!");
+           }
+         },
+         { onlyOnce: true }
+       );
+     };
+   
+     const nextCurrentQueue = () => {
+       if (currentQueue) {
+         toast.warning("There is already an active queue. Complete or cancel it first.");
+         return;
+       }
+     
+       Swal.fire({
+         title: "Next Queue?",
+         text: "Are you sure you want to get the next queue?",
+         icon: "question",
+         confirmButtonText: "Yes",
+         confirmButtonColor: "#1C2E8B",
+         showCancelButton: true,
+         customClass: {
+           confirmButton: "confirm-button",
+           cancelButton: "cancel-button",
+         },
+       }).then((result) => {
+         if (result.isConfirmed) {
+           fetchNextQueue();
+           fetchWindowStatus();
+         }
+       });
+     };
+     
+   
+     // Complete current queue
+     const completeCurrentQueue = async () => {
+       if (!currentQueueId) return;
+       const confirmQ = await Swal.fire({
+         title: 'Next Queue?',
+         text: 'Are you sure you want to complete the current queue?',
+         icon: '',
+         confirmButtonText: 'Yes',
+         confirmButtonColor: '#1C2E8B',
+         showCancelButton: true,
+         customClass: {
+           confirmButton: "confirm-button",
+           cancelButton:"cancel-button",
+         }
+       }) 
+       if (confirmQ.isConfirmed){
+   
+         const currentQueueRef = ref(db, `queues/${currentQueueId}`);
+   
+         onValue(
+           currentQueueRef,
+           (snapshot) => {
+             if (snapshot.exists()) {
+               const currentData = snapshot.val();
+               const readableEndTime = getReadableDateTime();
+               const startTimeMillis = Date.parse(currentData.StartTime);
+               const processingTimeMillis = Date.now() - startTimeMillis;
+   
+               if (isNaN(startTimeMillis) || isNaN(processingTimeMillis)) {
+                 alert("Cannot calculate processing time. StartTime is missing or invalid.");
+                 return;
+               }
+   
+               const readableProcessingTime = formatProcessingTime(processingTimeMillis);
+   
+               push(ref(db, "CompletedQueues"), {
+                 ...currentData,
+                 Status: "Completed",
+                 Date_and_Time_Completed: readableEndTime, // Formatted date and time
+                 ProcessingTime: readableProcessingTime,
+               }).then(() => {
+                 remove(currentQueueRef).then(() => {
+                   setCurrentQueue(null);
+   
+                 });
+               });
+             }
+           },
+           { onlyOnce: true }
+         );
+       }
+     };
+   
+     // Cancel current queue
+     const cancelCurrentQueue = async () => {
+       if (!currentQueueId) return;
+       const confirmQ = await Swal.fire({
+         title: 'Cancel Queue?',
+         text: 'Are you sure you want to cancel this queue?',
+         icon: '',
+         confirmButtonText: 'Yes',
+         confirmButtonColor: '#1C2E8B',
+         showCancelButton: true,
+         customClass: {
+           confirmButton: "confirm-button",
+           cancelButton:"cancel-button",
+         }
+       }) 
+       if (confirmQ.isConfirmed){
+         const reason = prompt("Please enter the reason for cancellation:");
+         if (reason) {
+           const currentQueueRef = ref(db, `queues/${currentQueueId}`);
+           const readableEndTime = getReadableDateTime();
+   
+           onValue(
+             currentQueueRef,
+             (snapshot) => {
+               if (snapshot.exists()) {
+                 const currentData = snapshot.val();
+                 const startTimeMillis = Date.parse(currentData.StartTime);
+                 const processingTimeMillis = Date.now() - startTimeMillis;
+   
+                 const readableProcessingTime = !isNaN(processingTimeMillis)
+                   ? formatProcessingTime(processingTimeMillis)
+                   : "N/A";
+   
+                 push(ref(db, "CompletedQueues"), {
+                   ...currentData,
+                   Status: "Cancelled",
+                   CancelReason: reason,
+                   Date_and_Time_Completed: readableEndTime,
+                   ProcessingTime: readableProcessingTime,
+                 }).then(() => {
+                   remove(currentQueueRef).then(() => {
+                     setCurrentQueue(null);
+                   });
+                 });
+               }
+             },
+             { onlyOnce: true }
+           );
+         } else {
+           alert("Cancellation reason is required.");
+         }
+       }
+     };
 
   // Format processing time
   const formatProcessingTime = (milliseconds) => {
@@ -217,9 +267,9 @@ function Window3() {
       <div className="win1-container">
         <div className="win-headz">
           <h2 className="win-title">FINANCE WINDOW 3</h2>
-          <button className="disable" onClick={handleToggleStatus}>
+          {/* <button className="disable" onClick={handleToggleStatus}>
             {window3Status === "Active" ? "Disable" : "Enable"}
-          </button>
+          </button> */}
         </div>
 
         <div className="user-container">
@@ -244,14 +294,7 @@ function Window3() {
               <h3 className="uid">Purpose:</h3>
               <span className="userInfo-value">{currentQueue?.Queue_Purpose || "N/A"}</span>
             </div>
-            <div className="user-Info">
-              <h3 className="uid">Completed Time:</h3>
-              <span className="userInfo-value">
-                {currentQueue?.CompletedTime ? currentQueue.CompletedTime : "N/A"}
-              </span>
-              
-            </div>
-          </div>
+ </div>
         </div>
         <div className="queue-container">
           <div className="q-wrapper">
@@ -262,13 +305,21 @@ function Window3() {
           </div>
           <div className="qBtn-container">
             <button className="cancel" onClick={cancelCurrentQueue}>Cancel</button>
-            <button className="recall">Recall</button>
-            <button className="next" onClick={completeCurrentQueue}>Next Queue</button>
+            <button className="next" onClick={completeCurrentQueue}>Finish Queue</button>
+            <button 
+  className={`get ${currentQueue ? "disabled-btn" : ""}`} 
+  onClick={nextCurrentQueue}
+>
+  Get Queue
+</button>
+
           </div>
         </div>
       </div>
+      <ToastContainer  />
     </>
   );
 }
+
 
 export default Window3;
